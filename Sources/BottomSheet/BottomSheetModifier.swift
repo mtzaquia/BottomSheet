@@ -43,7 +43,7 @@ public extension View {
 	}
 }
 
-private struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
+struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
 	init(isPresented: Binding<Bool>,
 		 cornerRadius: CGFloat?,
 		 prefersGrabberVisible: Bool?,
