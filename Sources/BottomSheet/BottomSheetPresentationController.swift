@@ -56,7 +56,7 @@ final class BottomSheetPresentationController: UIPresentationController {
 		didSet {
 			grabberView.isHidden = !prefersGrabberVisible
 
-			presentedViewController.additionalSafeAreaInsets = UIEdgeInsets(top: (prefersGrabberVisible ? grabberSize.height : 0) * 2,
+			presentedViewController.additionalSafeAreaInsets = UIEdgeInsets(top: (prefersGrabberVisible ? grabberSize.height : 0) * 3,
 																			left: 0,
 																			bottom: 0,
 																			right: 0)
