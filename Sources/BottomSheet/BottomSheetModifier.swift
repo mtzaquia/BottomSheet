@@ -54,29 +54,29 @@ struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
 		self.prefersGrabberVisible = prefersGrabberVisible
 		self.content = content
 	}
-
+	
 	@Binding var isPresented: Bool
 	let cornerRadius: CGFloat?
 	let prefersGrabberVisible: Bool?
 	let content: () -> BottomSheet
-
+	
 	@State private var transitioningDelegate = BottomSheetTransitioningDelegate()
 	@State private var presentingViewController: UIViewController?
-
+	
 	func body(content: Content) -> some View {
 		content
 			.presentation(isPresented: $isPresented, content: self.content) { content in
 				let bshc = BottomSheetHostingController(rootView: content)
 				bshc.modalPresentationStyle = .custom
-
+				
 				if let prefersGrabberVisible = prefersGrabberVisible {
 					bshc.bottomSheetPresentationController?.prefersGrabberVisible = prefersGrabberVisible
 				}
-
+				
 				if let cornerRadius = cornerRadius {
 					bshc.bottomSheetPresentationController?.cornerRadius = cornerRadius
 				}
-
+				
 				return bshc
 			}
 	}

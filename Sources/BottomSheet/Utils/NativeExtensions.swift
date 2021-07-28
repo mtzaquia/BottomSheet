@@ -26,20 +26,20 @@ import UIKit
 
 private var actionKey: UInt8 = 0
 private extension UIGestureRecognizer {
-    var action: (() -> Void)? {
-        get { objc_getAssociatedObject(self, &actionKey) as? () -> Void }
-        set { objc_setAssociatedObject(self, &actionKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_COPY) }
-    }
+	var action: (() -> Void)? {
+		get { objc_getAssociatedObject(self, &actionKey) as? () -> Void }
+		set { objc_setAssociatedObject(self, &actionKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_COPY_NONATOMIC) }
+	}
 }
 
 extension UITapGestureRecognizer {
-    convenience init(action: @escaping () -> Void) {
-        self.init(target: nil, action: nil)
-        self.action = action
-        self.addTarget(self, action: #selector(execute))
-    }
+	convenience init(action: @escaping () -> Void) {
+		self.init(target: nil, action: nil)
+		self.action = action
+		self.addTarget(self, action: #selector(execute))
+	}
 
-    @objc private func execute() {
-        action?()
-    }
+	@objc private func execute() {
+		action?()
+	}
 }
