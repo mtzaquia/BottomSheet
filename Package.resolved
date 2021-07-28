@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "UIKitPresentationModifier",
+        "repositoryURL": "https://github.com/mtzaquia/UIKitPresentationModifier.git",
+        "state": {
+          "branch": "main",
+          "revision": "8e3d08c0758194f61fd9718285c3c71df3de16c5",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
