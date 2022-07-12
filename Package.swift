@@ -14,7 +14,7 @@ let package = Package(
             targets: ["BottomSheet"]),
     ],
 	dependencies: [
-		.package(url: "https://github.com/mtzaquia/UIKitPresentationModifier.git", .branch("main"))
+		.package(url: "https://github.com/mtzaquia/BottomSheet", .branch("main"))
 	],
     targets: [
         .target(
