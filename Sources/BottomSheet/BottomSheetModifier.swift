@@ -26,58 +26,69 @@ import SwiftUI
 import UIKitPresentationModifier
 
 public extension View {
-	/// **[BottomSheetModifier]** Use this modifier to present a bottom sheet, analogous to `SwiftUI.View.sheet(...)`, but which has the needed size to wrap the contents.
-	/// - Parameters:
-	///   - isPresented: A binding to the presentation. The bottom sheet will automatically reset this flag when dismissed (i.e.: when tapping on the overlay).
-	///   - cornerRadius: The corner radius to be used for this bottom sheet.
-	///   - prefersGrabberVisible: A flag indicating if a grabber should be shown.
-	///   - content: The content to be displayed inside the bottom sheet.
-	func bottomSheet<Content>(isPresented: Binding<Bool>,
-							  cornerRadius: CGFloat? = nil,
-							  prefersGrabberVisible: Bool? = nil,
-							  @ViewBuilder content: @escaping () -> Content) -> some View where Content: View {
-		modifier(BottomSheetModifier(isPresented: isPresented,
-									 cornerRadius: cornerRadius,
-									 prefersGrabberVisible: prefersGrabberVisible,
-									 content: content))
-	}
+    /// **[BottomSheetModifier]** Use this modifier to present a bottom sheet, analogous to `SwiftUI.View.sheet(...)`, but which has the needed size to wrap the contents.
+    ///
+    /// - Important: The content view won't inherit custom values from the presentation's environment,
+    /// so those need to be manually provided again as needed.
+    ///
+    /// - Parameters:
+    ///   - isPresented: A binding to the presentation. The bottom sheet will automatically reset this flag when dismissed (i.e.: when tapping on the overlay).
+    ///   - cornerRadius: The corner radius to be used for this bottom sheet.
+    ///   - prefersGrabberVisible: A flag indicating if a grabber should be shown.
+    ///   - content: The content to be displayed inside the bottom sheet.
+    func bottomSheet<Content>(
+        isPresented: Binding<Bool>,
+        cornerRadius: CGFloat? = nil,
+        prefersGrabberVisible: Bool? = nil,
+        @ViewBuilder content: @escaping () -> Content
+    ) -> some View where Content: View {
+        modifier(
+            BottomSheetModifier(
+                isPresented: isPresented,
+                cornerRadius: cornerRadius,
+                prefersGrabberVisible: prefersGrabberVisible,
+                content: content
+            )
+        )
+    }
 }
 
 struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
-	init(isPresented: Binding<Bool>,
-		 cornerRadius: CGFloat?,
-		 prefersGrabberVisible: Bool?,
-		 content: @escaping () -> BottomSheet)
-	{
-		_isPresented = isPresented
-		self.cornerRadius = cornerRadius
-		self.prefersGrabberVisible = prefersGrabberVisible
-		self.content = content
-	}
-	
-	@Binding var isPresented: Bool
-	let cornerRadius: CGFloat?
-	let prefersGrabberVisible: Bool?
-	let content: () -> BottomSheet
-	
-	@State private var transitioningDelegate = BottomSheetTransitioningDelegate()
-	@State private var presentingViewController: UIViewController?
-	
-	func body(content: Content) -> some View {
-		content
-			.presentation(isPresented: $isPresented, content: self.content) { content in
-				let bshc = BottomSheetHostingController(rootView: content)
-				bshc.modalPresentationStyle = .custom
-				
-				if let prefersGrabberVisible = prefersGrabberVisible {
-					bshc.bottomSheetPresentationController?.prefersGrabberVisible = prefersGrabberVisible
-				}
-				
-				if let cornerRadius = cornerRadius {
-					bshc.bottomSheetPresentationController?.cornerRadius = cornerRadius
-				}
-				
-				return bshc
-			}
-	}
+    init(
+        isPresented: Binding<Bool>,
+        cornerRadius: CGFloat?,
+        prefersGrabberVisible: Bool?,
+        content: @escaping () -> BottomSheet
+    ) {
+        _isPresented = isPresented
+        self.cornerRadius = cornerRadius
+        self.prefersGrabberVisible = prefersGrabberVisible
+        self.content = content
+    }
+    
+    @Binding var isPresented: Bool
+    let cornerRadius: CGFloat?
+    let prefersGrabberVisible: Bool?
+    let content: () -> BottomSheet
+    
+    @State private var transitioningDelegate = BottomSheetTransitioningDelegate()
+    @State private var presentingViewController: UIViewController?
+    
+    func body(content: Content) -> some View {
+        content
+            .presentation(isPresented: $isPresented, content: self.content) { content in
+                let bshc = BottomSheetHostingController(rootView: content)
+                bshc.modalPresentationStyle = .custom
+                
+                if let prefersGrabberVisible = prefersGrabberVisible {
+                    bshc.bottomSheetPresentationController?.prefersGrabberVisible = prefersGrabberVisible
+                }
+                
+                if let cornerRadius = cornerRadius {
+                    bshc.bottomSheetPresentationController?.cornerRadius = cornerRadius
+                }
+                
+                return bshc
+            }
+    }
 }

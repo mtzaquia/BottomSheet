@@ -25,15 +25,20 @@
 import SwiftUI
 
 final class BottomSheetHostingController<Content>: UIHostingController<Content> where Content: View {
-	override var modalPresentationCapturesStatusBarAppearance: Bool { get { true } set {} }
-	override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
-	var bottomSheetPresentationController: BottomSheetPresentationController? {
-		modalPresentationStyle = .custom
-		return presentationController as? BottomSheetPresentationController
-	}
-	
-	override var transitioningDelegate: UIViewControllerTransitioningDelegate? {
-		get { BottomSheetTransitioningDelegate() }
-		set {}
-	}
+    override var modalPresentationCapturesStatusBarAppearance: Bool {
+        get { true }
+        set {}
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+    
+    var bottomSheetPresentationController: BottomSheetPresentationController? {
+        modalPresentationStyle = .custom
+        return presentationController as? BottomSheetPresentationController
+    }
+    
+    override var transitioningDelegate: UIViewControllerTransitioningDelegate? {
+        get { BottomSheetTransitioningDelegate() }
+        set {}
+    }
 }
