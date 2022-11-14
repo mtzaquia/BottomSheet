@@ -26,7 +26,7 @@ import SwiftUI
 import UIKitPresentationModifier
 
 public extension View {
-    /// **[BottomSheetModifier]** Use this modifier to present a bottom sheet, analogous to `SwiftUI.View.sheet(...)`, but which has the needed size to wrap the contents.
+    /// **[BottomSheet]** Use this modifier to present a bottom sheet, analogous to `SwiftUI.View.sheet(...)`, but which has the needed size to wrap the contents.
     ///
     /// - Important: The content view won't inherit custom values from the presentation's environment,
     /// so those need to be manually provided again as needed.
@@ -78,7 +78,6 @@ struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
         content
             .presentation(isPresented: $isPresented, content: self.content) { content in
                 let bshc = BottomSheetHostingController(rootView: content)
-                bshc.modalPresentationStyle = .custom
                 
                 if let prefersGrabberVisible = prefersGrabberVisible {
                     bshc.bottomSheetPresentationController?.prefersGrabberVisible = prefersGrabberVisible

@@ -52,6 +52,7 @@ final class BottomSheetPresentationController: UIPresentationController {
             presentedView?.layer.cornerRadius = cornerRadius
         }
     }
+
     public var prefersGrabberVisible: Bool = false {
         didSet {
             grabberView.isHidden = !prefersGrabberVisible
@@ -62,6 +63,13 @@ final class BottomSheetPresentationController: UIPresentationController {
                 bottom: 0,
                 right: 0
             )
+        }
+    }
+
+    public var allowsInteractiveDismiss: Bool = true {
+        didSet {
+            dismissDragGestureRecognizer.isEnabled = allowsInteractiveDismiss
+            dismissTapGestureRecognizer.isEnabled = allowsInteractiveDismiss
         }
     }
 

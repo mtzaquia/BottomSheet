@@ -24,20 +24,47 @@
 
 import SwiftUI
 
-final class BottomSheetHostingController<Content>: UIHostingController<Content> where Content: View {
-    override var modalPresentationCapturesStatusBarAppearance: Bool {
+/// /// **[BottomSheet]** A convenient bottom sheet presentation controller for SwiftUI views.
+public final class BottomSheetHostingController<Content>: UIHostingController<Content> where Content: View {
+    /// Creates a new hosting controller which gets presented as a bottom sheet.
+    ///
+    /// - Important: The bottom sheet will dinamically size itself based on the intrinsic SwiftUI view size.
+    ///
+    /// - Parameters:
+    ///   - prefersGrabberVisible: A flag indicating if the grabber should be visible.
+    ///   - allowsInteractiveDismiss: A flag indicating if dragging the bottom sheet down/tapping on the scrim should dismiss the controller.
+    ///   - rootView: The `SwiftUI` view to present.
+    public init(
+        prefersGrabberVisible: Bool? = nil,
+        allowsInteractiveDismiss: Bool? = nil,
+        rootView: Content
+    ) {
+        super.init(rootView: rootView)
+        modalPresentationStyle = .custom
+
+        if let prefersGrabberVisible = prefersGrabberVisible {
+            bottomSheetPresentationController?.prefersGrabberVisible = prefersGrabberVisible
+        }
+
+        if let allowsInteractiveDismiss = allowsInteractiveDismiss {
+            bottomSheetPresentationController?.allowsInteractiveDismiss = allowsInteractiveDismiss
+        }
+    }
+
+    @MainActor required dynamic init?(coder aDecoder: NSCoder) { fatalError() }
+
+    public override var modalPresentationCapturesStatusBarAppearance: Bool {
         get { true }
         set {}
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+    public override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
     
     var bottomSheetPresentationController: BottomSheetPresentationController? {
-        modalPresentationStyle = .custom
-        return presentationController as? BottomSheetPresentationController
+        presentationController as? BottomSheetPresentationController
     }
     
-    override var transitioningDelegate: UIViewControllerTransitioningDelegate? {
+    public override var transitioningDelegate: UIViewControllerTransitioningDelegate? {
         get { BottomSheetTransitioningDelegate() }
         set {}
     }
