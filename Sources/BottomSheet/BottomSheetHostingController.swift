@@ -31,11 +31,13 @@ public final class BottomSheetHostingController<Content>: UIHostingController<Co
     /// - Important: The bottom sheet will dinamically size itself based on the intrinsic SwiftUI view size.
     ///
     /// - Parameters:
+    ///   - cornerRadius: The radius to be used on the top portion of the sheet.
     ///   - prefersGrabberVisible: A flag indicating if the grabber should be visible.
     ///   - allowsInteractiveDismiss: A flag indicating if dragging the bottom sheet down/tapping on the scrim should dismiss the controller.
     ///   - rootView: The `SwiftUI` view to present.
     public init(
         prefersGrabberVisible: Bool? = nil,
+        cornerRadius: CGFloat? = nil,
         allowsInteractiveDismiss: Bool? = nil,
         rootView: Content
     ) {
@@ -44,6 +46,10 @@ public final class BottomSheetHostingController<Content>: UIHostingController<Co
 
         if let prefersGrabberVisible = prefersGrabberVisible {
             bottomSheetPresentationController?.prefersGrabberVisible = prefersGrabberVisible
+        }
+
+        if let cornerRadius = cornerRadius {
+            bottomSheetPresentationController?.cornerRadius = cornerRadius
         }
 
         if let allowsInteractiveDismiss = allowsInteractiveDismiss {

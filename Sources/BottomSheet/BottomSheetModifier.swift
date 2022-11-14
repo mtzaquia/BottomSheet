@@ -77,17 +77,11 @@ struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
     func body(content: Content) -> some View {
         content
             .presentation(isPresented: $isPresented, content: self.content) { content in
-                let bshc = BottomSheetHostingController(rootView: content)
-                
-                if let prefersGrabberVisible = prefersGrabberVisible {
-                    bshc.bottomSheetPresentationController?.prefersGrabberVisible = prefersGrabberVisible
-                }
-                
-                if let cornerRadius = cornerRadius {
-                    bshc.bottomSheetPresentationController?.cornerRadius = cornerRadius
-                }
-                
-                return bshc
+                BottomSheetHostingController(
+                    prefersGrabberVisible: prefersGrabberVisible,
+                    cornerRadius: cornerRadius,
+                    rootView: content
+                )
             }
     }
 }
