@@ -5,9 +5,9 @@
         "package": "UIKitPresentationModifier",
         "repositoryURL": "https://github.com/mtzaquia/UIKitPresentationModifier.git",
         "state": {
-          "branch": "main",
-          "revision": "fe32c5bb861caa4d33d9f850d0e908a050466068",
-          "version": null
+          "branch": null,
+          "revision": "8aa474fe01e2ff9c716f272e395c36fa2af23683",
+          "version": "1.0.0"
         }
       }
     ]
