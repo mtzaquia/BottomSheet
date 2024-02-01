@@ -40,6 +40,7 @@ public extension View {
         isPresented: Binding<Bool>,
         cornerRadius: CGFloat? = nil,
         prefersGrabberVisible: Bool? = nil,
+        allowedInteractions: SupportedInteractions? = .all,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View where Content: View {
         modifier(
@@ -47,6 +48,7 @@ public extension View {
                 isPresented: isPresented,
                 cornerRadius: cornerRadius,
                 prefersGrabberVisible: prefersGrabberVisible,
+                allowedInteractions: allowedInteractions,
                 content: content
             )
         )
@@ -58,17 +60,20 @@ struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
         isPresented: Binding<Bool>,
         cornerRadius: CGFloat?,
         prefersGrabberVisible: Bool?,
+        allowedInteractions: SupportedInteractions?,
         content: @escaping () -> BottomSheet
     ) {
         _isPresented = isPresented
         self.cornerRadius = cornerRadius
         self.prefersGrabberVisible = prefersGrabberVisible
+        self.allowedInteractions = allowedInteractions
         self.content = content
     }
     
     @Binding var isPresented: Bool
     let cornerRadius: CGFloat?
     let prefersGrabberVisible: Bool?
+    let allowedInteractions: SupportedInteractions?
     let content: () -> BottomSheet
     
     @State private var transitioningDelegate = BottomSheetTransitioningDelegate()
@@ -80,6 +85,7 @@ struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
                 BottomSheetHostingController(
                     prefersGrabberVisible: prefersGrabberVisible,
                     cornerRadius: cornerRadius,
+                    allowedInteractions: allowedInteractions,
                     rootView: content
                 )
             }

@@ -38,7 +38,7 @@ public final class BottomSheetHostingController<Content>: UIHostingController<Co
     public init(
         prefersGrabberVisible: Bool? = nil,
         cornerRadius: CGFloat? = nil,
-        allowsInteractiveDismiss: Bool? = nil,
+        allowedInteractions: SupportedInteractions? = nil,
         rootView: Content
     ) {
         super.init(rootView: rootView)
@@ -52,8 +52,8 @@ public final class BottomSheetHostingController<Content>: UIHostingController<Co
             bottomSheetPresentationController?.cornerRadius = cornerRadius
         }
 
-        if let allowsInteractiveDismiss = allowsInteractiveDismiss {
-            bottomSheetPresentationController?.allowsInteractiveDismiss = allowsInteractiveDismiss
+        if let allowedInteractions = allowedInteractions {
+            bottomSheetPresentationController?.allowedInteractions = allowedInteractions
         }
     }
 

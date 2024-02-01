@@ -66,15 +66,19 @@ final class BottomSheetPresentationController: UIPresentationController {
         }
     }
 
-    public var allowsInteractiveDismiss: Bool = true {
+    public var allowedInteractions: SupportedInteractions = .all {
         didSet {
-            dismissDragGestureRecognizer.isEnabled = allowsInteractiveDismiss
-            dismissTapGestureRecognizer.isEnabled = allowsInteractiveDismiss
+            dismissDragGestureRecognizer.isEnabled = allowedInteractions.contains(.dismissDrag)
+            dismissTapGestureRecognizer.isEnabled = allowedInteractions.contains(.dismissTap)
         }
     }
 
     private let dismissTapGestureRecognizer = UITapGestureRecognizer()
-    let dismissDragGestureRecognizer = UIPanGestureRecognizer()
+    lazy var dismissDragGestureRecognizer: UIPanGestureRecognizer = {
+        let gesture = UIPanGestureRecognizer()
+        gesture.delegate = self
+        return gesture
+    }()
 
 
     override func presentationTransitionWillBegin() {
@@ -203,5 +207,30 @@ final class BottomSheetPresentationController: UIPresentationController {
     private func setDecorations(hidden: Bool) {
         dimmingView.alpha = hidden ? 0 : 1
         grabberView.alpha = hidden || !prefersGrabberVisible ? 0 : 1
+    }
+}
+
+extension BottomSheetPresentationController: UIGestureRecognizerDelegate {
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        print("gestureRecognizerShouldBegin")
+        return false
+    }
+
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
+        print("shouldRecognizeSimultaneouslyWith")
+        print(otherGestureRecognizer)
+        return true
+    }
+
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldReceive event: UIEvent
+    ) -> Bool {
+        print("shouldReceive")
+        return false
     }
 }
