@@ -168,6 +168,9 @@ final class BottomSheetPresentationController: UIPresentationController {
 
         if completed {
             delegate?.presentationControllerDidDismiss?(self)
+        } else {
+            presentedView?.frame = .zero
+            containerViewWillLayoutSubviews()
         }
     }
 

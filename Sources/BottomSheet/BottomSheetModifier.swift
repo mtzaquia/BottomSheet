@@ -58,25 +58,25 @@ struct BottomSheetModifier<BottomSheet>: ViewModifier where BottomSheet: View {
         isPresented: Binding<Bool>,
         cornerRadius: CGFloat?,
         prefersGrabberVisible: Bool?,
-        content: @escaping () -> BottomSheet
+        content: () -> BottomSheet
     ) {
         _isPresented = isPresented
         self.cornerRadius = cornerRadius
         self.prefersGrabberVisible = prefersGrabberVisible
-        self.content = content
+        self.content = content()
     }
     
     @Binding var isPresented: Bool
     let cornerRadius: CGFloat?
     let prefersGrabberVisible: Bool?
-    let content: () -> BottomSheet
+    let content: BottomSheet
     
     @State private var transitioningDelegate = BottomSheetTransitioningDelegate()
     @State private var presentingViewController: UIViewController?
     
     func body(content: Content) -> some View {
         content
-            .presentation(isPresented: $isPresented, content: self.content) { content in
+            .presentation(isPresented: $isPresented, content: { self.content }) { content in
                 BottomSheetHostingController(
                     prefersGrabberVisible: prefersGrabberVisible,
                     cornerRadius: cornerRadius,
